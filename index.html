@@ -162,17 +162,44 @@
       .backlink { margin-bottom: 14px; }
       .divider { border: none; border-top: 1px solid var(--line); margin: 22px 0; }
       footer { margin-top: 34px; color: var(--ink-soft); font-size: 0.85rem; text-align: center; }
+
+      /* ---------- Petites attentions ---------- */
+      .love-heart-btn {
+        appearance: none; border: none; background: transparent; cursor: pointer;
+        color: var(--red); font-size: 1.15rem; line-height: 1; padding: 4px 2px;
+        vertical-align: baseline; min-height: 0;
+      }
+      .love-heart-btn:active { transform: scale(1.3); }
+      #love-toast {
+        position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 20px);
+        background: var(--navy); color: var(--navy-ink); padding: 12px 20px; border-radius: 999px;
+        font-weight: 700; font-size: 0.98rem; box-shadow: var(--shadow);
+        opacity: 0; pointer-events: none; transition: opacity 0.35s ease, transform 0.35s ease;
+        z-index: 60; max-width: 88vw; text-align: center;
+      }
+      #love-toast.show { opacity: 1; transform: translate(-50%, 0); }
+      .heart-particle {
+        position: fixed; bottom: 12vh; z-index: 59; pointer-events: none;
+        color: #d6455a; animation: heartFloat 2.8s ease-out forwards;
+      }
+      @keyframes heartFloat {
+        0% { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
+        12% { opacity: 1; }
+        100% { transform: translateY(-46vh) scale(1.15) rotate(14deg); opacity: 0; }
+      }
       @media (prefers-reduced-motion: reduce) {
         .card-inner { transition: none; }
         .progress-fill { transition: none; }
+        .heart-particle { display: none; }
       }
     </style>
   </head>
   <body>
     <main>
+      <div id="love-toast" role="status"></div>
       <!-- ================= ACCUEIL ================= -->
       <section id="view-home" class="view active">
-        <h1>Mes paquets de révision</h1>
+        <h1>Mes paquets de révision <button class="love-heart-btn" id="love-heart" type="button" aria-label="Un petit cœur pour Julie">♥</button></h1>
         <p class="lede">Touchez un paquet pour réviser. Les cartes marquées « À revoir » reviennent plus souvent, jusqu'à ce qu'elles soient maîtrisées. Tout est enregistré automatiquement sur cet appareil.</p>
         <div id="deck-list"></div>
         <div class="panel">
@@ -381,6 +408,92 @@
       ];
 
       /* ============================================================
+         Paquets Union européenne — Concours MEAE (ajoutés en novembre 2026)
+         Chaque carte : [recto, verso]. Les identifiants de paquets sont
+         fixes pour permettre l'ajout automatique chez les utilisatrices
+         qui ont déjà la Constitution enregistrée sur leur appareil.
+         ============================================================ */
+      var EU_DECKS = [
+        {
+          id: "ue-budget",
+          name: "UE — Le budget de l'Union européenne",
+          cards: [
+            ["Quelle est la base juridique du budget de l'UE ?", "Les articles 310 à 325 TFUE (dispositions financières) : art. 311 pour les ressources propres, art. 312 pour le cadre financier pluriannuel, art. 314 pour la procédure budgétaire annuelle."],
+            ["Quels sont les principes budgétaires de l'UE ?", "Unité, vérité (sincérité), annualité, équilibre, universalité, spécialité, bonne gestion financière et transparence (art. 310 TFUE)."],
+            ["Qu'est-ce que le cadre financier pluriannuel (CFP) ?", "Le cadre qui fixe les plafonds de dépenses de l'UE par grande catégorie pour une période d'au moins cinq ans — en pratique sept ans (art. 312 TFUE)."],
+            ["Comment le cadre financier pluriannuel est-il adopté ?", "Par le Conseil, statuant à l'unanimité, après approbation du Parlement européen (art. 312 TFUE)."],
+            ["Quel est le CFP en vigueur, et quel est le grand chantier budgétaire actuel ?", "Le CFP 2021-2027 est en vigueur ; les négociations du cadre post-2027 sont le grand chantier budgétaire actuel."],
+            ["Qu'est-ce que NextGenerationEU ?", "Le plan de relance post-Covid financé par un emprunt commun émis par la Commission sur les marchés et adossé au budget de l'UE. Son instrument principal est la facilité pour la reprise et la résilience (FRR)."],
+            ["Comment l'emprunt de NextGenerationEU sera-t-il remboursé ?", "Par le budget de l'UE, notamment grâce à de nouvelles ressources propres (contribution sur les plastiques non recyclés, mécanismes liés au carbone…)."],
+            ["Quelles sont les ressources propres de l'UE ?", "Les droits de douane, la ressource TVA, la ressource RNB (la plus importante) et la contribution sur les déchets d'emballages plastiques non recyclés. Le débat porte sur de nouvelles ressources."],
+            ["Quel article du TFUE régit les ressources propres ?", "L'article 311 TFUE : la décision sur les ressources propres est prise à l'unanimité par le Conseil et ratifiée par les États membres."],
+            ["Comment se déroule la procédure budgétaire annuelle (art. 314 TFUE) ?", "La Commission propose le projet de budget ; le Conseil arrête sa position ; le Parlement fait sa lecture et peut amender ; en cas de désaccord, un comité de conciliation dispose de 21 jours ; le Parlement adopte définitivement le budget."],
+            ["Qui contrôle l'exécution du budget de l'UE ?", "La Cour des comptes européenne (rapport annuel), l'OLAF pour les enquêtes antifraude administratives et le Parquet européen (EPPO) pour les poursuites pénales."],
+            ["Qu'est-ce que la décharge budgétaire ?", "La décision par laquelle le Parlement européen approuve la gestion du budget par la Commission pour un exercice donné (art. 319 TFUE)."],
+            ["Qu'est-ce que la conditionnalité « État de droit » ?", "Le mécanisme qui permet de suspendre des fonds européens lorsqu'une atteinte aux principes de l'État de droit menace les intérêts financiers de l'UE."],
+            ["Quelle est la position de la France sur le budget de l'UE ?", "La France est contributeur net (elle verse plus qu'elle ne reçoit, même si elle est la première bénéficiaire de la PAC). Les « rabais » et corrections historiques réduisent la contribution de certains États."]
+          ]
+        },
+        {
+          id: "ue-institutions",
+          name: "UE — Les institutions européennes",
+          cards: [
+            ["Quel article du TUE fixe le cadre institutionnel de l'UE ?", "L'article 13 TUE. Les institutions sont ensuite détaillées aux articles 14 à 19 TUE et aux articles 223 à 287 TFUE."],
+            ["Combien le Parlement européen compte-t-il de députés, et comment sont-ils élus ?", "720 députés, élus au suffrage universel direct pour cinq ans, à la représentation proportionnelle."],
+            ["Quelles sont les compétences du Parlement européen ?", "Co-législateur avec le Conseil, autorité budgétaire conjointe, contrôle de la Commission (investiture et motion de censure) et approbation de nombreux accords internationaux."],
+            ["Comment la Commission européenne est-elle investie ?", "Le Conseil européen propose un candidat à la présidence en tenant compte des élections européennes ; le Parlement élit le président, puis approuve le collège des commissaires après auditions."],
+            ["Quelle est l'arme ultime du Parlement contre la Commission ?", "La motion de censure (art. 234 TFUE) : adoptée aux deux tiers des suffrages exprimés et à la majorité des membres du Parlement, elle contraint la Commission à démissionner collectivement."],
+            ["Quel est le rôle du Conseil européen ?", "Donner à l'Union les impulsions et orientations politiques générales. Il n'exerce pas de fonction législative, décide en principe par consensus et est présidé par un président élu pour deux ans et demi."],
+            ["Qui compose le Conseil de l'UE, et comment vote-t-il ?", "Les ministres des États membres, réunis par formation ; la présidence tourne tous les six mois. Le vote se fait à la majorité qualifiée en règle générale, à l'unanimité dans les domaines sensibles."],
+            ["Qu'est-ce que la majorité qualifiée au Conseil ?", "La double majorité : au moins 55 % des États membres représentant au moins 65 % de la population totale de l'UE."],
+            ["Quel est le rôle de la Commission européenne ?", "Elle détient le quasi-monopole de l'initiative législative, est gardienne des traités, exécute le budget et les politiques de l'UE et la représente à l'extérieur (hors PESC). Son président dirige le collège des commissaires."],
+            ["Quelles sont les principales voies de recours devant la Cour de justice de l'UE ?", "Le recours en manquement (contre un État membre), le renvoi préjudiciel (par les juridictions nationales), le recours en annulation (contre un acte de l'UE), le recours en carence et le recours en indemnité."],
+            ["Quels sont les deux grands principes de l'ordre juridique de l'UE dégagés par la CJUE ?", "La primauté du droit de l'UE sur les droits nationaux et l'effet direct de certaines normes européennes, invocables par les particuliers devant leur juge."],
+            ["Quelles sont les autres institutions et organes de l'UE ?", "La Cour des comptes européenne, la Banque centrale européenne, le Comité des régions et le Comité économique et social européen (organes consultatifs), ainsi que le Haut Représentant et le SEAE pour l'action extérieure."],
+            ["Qu'est-ce que la procédure législative ordinaire ?", "La codécision (art. 294 TFUE) : sur proposition de la Commission, le Parlement et le Conseil adoptent ensemble l'acte, après jusqu'à deux lectures et, si besoin, une conciliation."],
+            ["Citez un exemple de procédure législative spéciale.", "L'adoption du cadre financier pluriannuel ou de la décision sur les ressources propres : le Conseil statue (souvent à l'unanimité) et le Parlement est consulté ou donne son approbation."]
+          ]
+        },
+        {
+          id: "ue-marche-unique",
+          name: "UE — Le marché unique",
+          cards: [
+            ["Quelles sont les quatre libertés du marché unique ?", "La libre circulation des marchandises, des personnes, des services et des capitaux."],
+            ["Quel article du TFUE définit le marché intérieur ?", "L'article 26 TFUE : le marché intérieur comporte un espace sans frontières intérieures où les quatre libertés sont assurées."],
+            ["Quels articles du TFUE couvrent les quatre libertés ?", "Marchandises : art. 28 à 37 ; personnes (travailleurs, établissement) : art. 45 à 55 ; services : art. 56 à 62 ; capitaux : art. 63 à 66."],
+            ["Quels articles du TFUE encadrent la concurrence et les aides d'État ?", "Les articles 101 à 109 TFUE : ententes (art. 101), abus de position dominante (art. 102) et aides d'État (art. 107)."],
+            ["Quels sont les volets de la politique de la concurrence de l'UE ?", "Le contrôle des concentrations, la répression des ententes, celle des abus de position dominante et le contrôle des aides d'État, principalement par la Commission."],
+            ["Que proposent les rapports Letta et Draghi (2024) ?", "Relancer la compétitivité européenne et approfondir le marché unique (énergie, télécoms, défense, union des marchés de capitaux) face au décrochage face aux États-Unis et à la Chine."],
+            ["À quoi servent le DMA et le DSA ?", "Le Digital Markets Act encadre les « contrôleurs d'accès » (très grandes plateformes) pour garantir des marchés numériques contestables ; le Digital Services Act responsabilise les plateformes sur les contenus et services en ligne."],
+            ["Quels sont les objectifs de la PAC (art. 39 TFUE) ?", "Accroître la productivité agricole, assurer un niveau de vie équitable aux agriculteurs, stabiliser les marchés, garantir la sécurité des approvisionnements et des prix raisonnables pour les consommateurs."],
+            ["Quels sont les deux piliers de la PAC ?", "Le pilier 1 : les aides directes aux agriculteurs, financées par le FEAGA. Le pilier 2 : le développement rural, financé par le FEADER."],
+            ["Pourquoi la PAC est-elle au cœur des débats sur le budget post-2027 ?", "Premier poste historique du budget, elle est disputée entre élargissement (Ukraine), tensions avec les agriculteurs et accords commerciaux comme le Mercosur."],
+            ["Qui négocie les accords commerciaux de l'UE ?", "La politique commerciale commune est une compétence exclusive de l'UE (art. 207 TFUE) : la Commission négocie, le Conseil conclut après approbation du Parlement européen."],
+            ["Quels sont les instruments de défense commerciale de l'UE ?", "Les droits antidumping et antisubventions, les clauses de sauvegarde, l'instrument anticoercition et le filtrage des investissements étrangers."],
+            ["Quels sont les piliers de l'Union économique et monétaire ?", "Une politique monétaire unique conduite par la BCE pour la zone euro, et une coordination des politiques budgétaires encadrée par le Pacte de stabilité et de croissance."]
+          ]
+        },
+        {
+          id: "ue-elargissements",
+          name: "UE — Les élargissements",
+          cards: [
+            ["Quel article régit l'adhésion à l'UE ?", "L'article 49 TUE : tout État européen qui respecte les valeurs de l'article 2 TUE peut demander à devenir membre. L'admission exige l'unanimité du Conseil et l'approbation du Parlement européen."],
+            ["Quels sont les critères de Copenhague (1993) ?", "Des institutions stables garantissant la démocratie, l'État de droit et les droits de l'homme ; une économie de marché viable ; et la capacité à assumer les obligations de l'adhésion, c'est-à-dire l'acquis de l'Union."],
+            ["Que sont les critères de Madrid (1995) ?", "Le renforcement de la capacité administrative et judiciaire du pays candidat, pour qu'il puisse appliquer effectivement l'acquis de l'Union."],
+            ["Quelles sont les étapes de la procédure d'adhésion ?", "Candidature, avis de la Commission, statut de candidat accordé par le Conseil européen, ouverture puis clôture des chapitres de négociation (regroupés en clusters), et enfin traité d'adhésion ratifié par tous les États membres."],
+            ["Quand l'Ukraine a-t-elle obtenu le statut de candidat, et où en est-elle ?", "En juin 2022, après l'invasion russe. Les négociations d'adhésion ont été ouvertes, mais l'avancement reste freiné par des blocages politiques et par les enjeux de sécurité et de reconstruction."],
+            ["Quel est le lien entre les dossiers moldave et ukrainien ?", "La Moldavie a obtenu le statut de candidat en même temps que l'Ukraine (juin 2022) et leurs processus avancent en parallèle, malgré l'enjeu de la Transnistrie et les ingérences russes."],
+            ["Quelle est la situation de la Géorgie ?", "Candidate depuis décembre 2023, mais son processus est gelé de fait en raison du recul démocratique de son gouvernement ; l'UE a suspendu l'avancement du dossier."],
+            ["Quelle est la situation de la Turquie ?", "Candidate depuis 1999, en négociations depuis 2005, mais le processus est gelé de fait : État de droit, question chypriote, union douanière et migration structurent le blocage."],
+            ["Où en sont les Balkans occidentaux ?", "Six pays sont engagés à des stades divers — le Monténégro et l'Albanie sont les plus avancés dans les négociations — mais le processus est ralenti par les différends bilatéraux et la lassitude de l'élargissement."],
+            ["Qu'est-ce que la Communauté politique européenne ?", "Un forum de dialogue politique lancé en 2022, à l'initiative de la France, qui réunit les pays de l'UE et leurs voisins européens — sans perspective d'adhésion automatique."],
+            ["Qu'est-ce que la « capacité d'absorption » ?", "La capacité de l'UE à intégrer de nouveaux membres sans affaiblir son fonctionnement : institutions, budget et politiques communes doivent pouvoir suivre."],
+            ["Pourquoi l'élargissement pose-t-il la question de la réforme de l'UE ?", "À trente membres ou plus, l'unanimité devient ingérable : d'où les débats sur l'extension du vote à la majorité qualifiée et sur une réforme préalable des institutions, position défendue notamment par la France."]
+          ]
+        }
+      ];
+
+      /* ============================================================
          Données et sauvegarde locale
          Carte : { id, f (recto), b (verso), s (score 0..3), seen }
          Maîtrisée = score >= 2 (deux « Je savais » d'affilée valent 2,
@@ -394,6 +507,21 @@
       }
       function makeCard(f, b) { return { id: uid("c"), f: f, b: b, s: 0, seen: 0 }; }
 
+      function makeBuiltinDeck(def) {
+        return { id: def.id, name: def.name, cards: def.cards.map(function (p) { return makeCard(p[0], p[1]); }) };
+      }
+      // Ajoute les paquets UE s'ils ne sont pas déjà là (appareils existants),
+      // sans jamais toucher aux paquets ni à la progression déjà enregistrés.
+      function ensureEUDecks() {
+        var added = false;
+        EU_DECKS.forEach(function (def) {
+          var exists = false;
+          for (var i = 0; i < state.decks.length; i++) if (state.decks[i].id === def.id) exists = true;
+          if (!exists) { state.decks.push(makeBuiltinDeck(def)); added = true; }
+        });
+        return added;
+      }
+
       function seedState() {
         var cards = [];
         function addAll(list) {
@@ -404,7 +532,9 @@
         }
         addAll(ARTICLES_P1);
         addAll(ARTICLES_P2);
-        return { decks: [{ id: uid("d"), name: "Constitution du 4 octobre 1958 — Concours MEAE", cards: cards }] };
+        var decks = [{ id: uid("d"), name: "Constitution du 4 octobre 1958 — Concours MEAE", cards: cards }];
+        EU_DECKS.forEach(function (def) { decks.push(makeBuiltinDeck(def)); });
+        return { decks: decks };
       }
 
       var state = null;
@@ -416,7 +546,7 @@
           var raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             var parsed = JSON.parse(raw);
-            if (parsed && Array.isArray(parsed.decks)) { state = parsed; return; }
+            if (parsed && Array.isArray(parsed.decks)) { state = parsed; if (ensureEUDecks()) save(); return; }
           }
         } catch (e) { /* on repart du paquet initial */ }
         state = seedState();
@@ -574,7 +704,7 @@
           queue: buildQueue(deck, shuffle),
           pos: 0, flipped: false,
           totalPlanned: deck.cards.length,
-          answered: 0, known: 0, again: 0
+          answered: 0, known: 0, again: 0, streak: 0
         };
         $("study-deck-name").textContent = deck.name;
         $("study-end").style.display = "none";
@@ -621,15 +751,19 @@
         var card = currentCard();
         var deck = getDeck(session.deckId);
         if (!card || !deck) return;
+        var masteredBefore = masteredCount(deck);
         card.seen += 1;
         session.answered += 1;
         if (known) {
           card.s = Math.min(3, card.s + 1);
           session.known += 1;
           session.pos += 1;
+          session.streak = (session.streak || 0) + 1;
+          celebrate(deck, masteredBefore);
         } else {
           card.s = 0;
           session.again += 1;
+          session.streak = 0;
           // La carte revient un peu plus tard dans la session.
           var id = session.queue.splice(session.pos, 1)[0];
           var insertAt = Math.min(session.queue.length, session.pos + 3);
@@ -641,6 +775,57 @@
       }
       $("btn-known").addEventListener("click", function () { grade(true); });
       $("btn-again").addEventListener("click", function () { grade(false); });
+      /* ---------- Petites attentions (à découvrir en révisant) ---------- */
+      var LOVE_NOTES = [
+        "Bravo Julie, tu assures !",
+        "Encore une ! Le Quai d'Orsay se rapproche.",
+        "Tu es brillante, continue comme ça.",
+        "Quelle mémoire ! C'est impressionnant.",
+        "La future diplomate est en grande forme aujourd'hui.",
+        "Un petit pas de plus vers le concours. Tu gères."
+      ];
+      var ETHAN_NOTES = [
+        "Message d'Ethan : il t'aime et il croit en toi. ♥",
+        "Ethan est fier de toi. Très fier. ♥",
+        "Un cœur d'Ethan, livré entre deux articles. ♥",
+        "Ethan t'aime. Voilà, c'est dit. ♥"
+      ];
+      function pickFrom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+      var loveToastTimer = null;
+      function loveToast(msg) {
+        var el = $("love-toast");
+        if (!el) return;
+        el.textContent = msg;
+        el.classList.add("show");
+        clearTimeout(loveToastTimer);
+        loveToastTimer = setTimeout(function () { el.classList.remove("show"); }, 3400);
+      }
+      function burstHearts(n) {
+        for (var i = 0; i < n; i++) {
+          var s = document.createElement("span");
+          s.className = "heart-particle";
+          s.textContent = "♥";
+          s.style.left = (8 + Math.random() * 84) + "vw";
+          s.style.fontSize = (16 + Math.random() * 22) + "px";
+          s.style.animationDelay = (Math.random() * 0.5) + "s";
+          document.body.appendChild(s);
+          setTimeout((function (el) { return function () { el.remove(); }; })(s), 3600);
+        }
+      }
+      function celebrate(deck, masteredBefore) {
+        var now = masteredCount(deck);
+        if (now > masteredBefore && now % 10 === 0) {
+          burstHearts(10);
+          loveToast(now + " cartes maîtrisées ! Ethan est très fier de toi.");
+          return;
+        }
+        if (session && session.streak > 0 && session.streak % 5 === 0) {
+          if (session.streak % 10 === 0) { burstHearts(6); loveToast(pickFrom(ETHAN_NOTES)); }
+          else loveToast(pickFrom(LOVE_NOTES));
+        }
+      }
+      $("love-heart").addEventListener("click", function () { burstHearts(7); loveToast(pickFrom(ETHAN_NOTES)); });
+
       function endSession() {
         var deck = session ? getDeck(session.deckId) : null;
         $("study-main").style.display = "none";
@@ -650,6 +835,12 @@
           $("study-end-text").textContent =
             "Vous avez répondu à " + session.answered + " carte(s) : " + session.known + " « Je savais », " +
             session.again + " « À revoir ». Au total, " + masteredCount(deck) + " carte(s) maîtrisée(s) sur " + deck.cards.length + " dans ce paquet.";
+          if (deck.cards.length > 0 && masteredCount(deck) === deck.cards.length) {
+            $("study-end-text").textContent += " Paquet entièrement maîtrisé : bravo, future diplomate ! Ethan t'aime et il est immensément fier de toi.";
+            burstHearts(14);
+          } else if (session.known >= 12) {
+            $("study-end-text").textContent += " " + pickFrom(LOVE_NOTES);
+          }
         }
       }
       $("btn-shuffle").addEventListener("click", function () { if (session) startStudy(session.deckId, true); });
