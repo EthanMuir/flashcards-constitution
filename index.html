@@ -170,6 +170,8 @@
         vertical-align: baseline; min-height: 0;
       }
       .love-heart-btn:active { transform: scale(1.3); }
+      .trip-countdown { text-align: center; color: var(--ink-soft); font-size: 0.95rem; margin: -8px 0 18px; }
+      .trip-countdown strong { color: var(--red); font-size: 1.05rem; }
       #love-toast {
         position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 20px);
         background: var(--navy); color: var(--navy-ink); padding: 12px 20px; border-radius: 999px;
@@ -201,6 +203,7 @@
       <section id="view-home" class="view active">
         <h1>Mes paquets de révision <button class="love-heart-btn" id="love-heart" type="button" aria-label="Un petit cœur pour Julie">♥</button></h1>
         <p class="lede">Touchez un paquet pour réviser. Les cartes marquées « À revoir » reviennent plus souvent, jusqu'à ce qu'elles soient maîtrisées. Tout est enregistré automatiquement sur cet appareil.</p>
+        <p class="trip-countdown" id="trip-countdown"></p>
         <div id="deck-list"></div>
         <div class="panel">
           <h2>Nouveau paquet</h2>
@@ -825,6 +828,21 @@
         }
       }
       $("love-heart").addEventListener("click", function () { burstHearts(7); loveToast(pickFrom(ETHAN_NOTES)); });
+
+      // Compte à rebours avant les retrouvailles à Paris (17 décembre 2026).
+      (function () {
+        var el = $("trip-countdown");
+        if (!el) return;
+        var target = new Date(2026, 11, 17); // 17 décembre 2026
+        var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var days = Math.round((target - today) / 86400000);
+        if (days > 1) el.innerHTML = "Plus que <strong>" + days + " jours</strong> avant de retrouver Ethan à Paris ♥";
+        else if (days === 1) el.innerHTML = "Plus qu'<strong>un seul jour</strong> avant de retrouver Ethan à Paris ♥";
+        else if (days === 0) el.innerHTML = "<strong>C'est aujourd'hui !</strong> Ethan arrive à Paris ♥";
+        else if (days >= -20) el.innerHTML = "<strong>Ethan est en France !</strong> Profitez-en bien ♥";
+        else el.style.display = "none";
+      })();
 
       function endSession() {
         var deck = session ? getDeck(session.deckId) : null;
