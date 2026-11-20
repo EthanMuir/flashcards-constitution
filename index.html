@@ -523,6 +523,87 @@
       ];
 
       /* ============================================================
+         Paquet Géoéconomie — Concours SCH (ajouté en novembre 2026)
+         « Économie, finances publiques, budget » : questions courtes
+         type examen, chiffres vérifiés (Insee, Banque de France,
+         Douanes) à la date du 20 novembre 2026.
+         ============================================================ */
+      var ECO_DECKS = [
+        {
+          id: "eco-finances-budget",
+          name: "Économie, finances publiques, budget",
+          cards: [
+            ["Quel est le dernier taux d’inflation connu en France ?", "+3,4 % sur un an en octobre 2026 (Insee), plus haut depuis janvier 2024, après +3,1 % en septembre ; l’estimation de novembre est attendue le 27 novembre."],
+            ["Quelle est la trajectoire de l’inflation en 2026 ?", "De +0,3 % sur un an en janvier à +3,4 % en octobre 2026 : une reprise nette après l’accalmie de 2025 (0,9 % en moyenne annuelle)."],
+            ["Citez trois causes de la reprise de l’inflation en 2026.", "Le conflit au Moyen-Orient, déclenché le 28 février 2026, a fait flamber pétrole et gaz ; les capacités de raffinage européennes, réduites par la guerre en Ukraine, renchérissent les carburants ; la répercussion du gaz sur l’électricité et les prix de vente des entreprises diffuse le choc."],
+            ["Quel poste tire l’inflation en octobre 2026 ?", "L’énergie, à +24,1 % sur un an, devant les services (+2,6 %) et l’alimentation (+1,2 %) ; les produits manufacturés reculent de 0,2 %."],
+            ["Qu’est-ce qu’un effet de second tour ?", "La diffusion du choc initial : les entreprises répercutent leurs coûts dans leurs prix et les salariés obtiennent des hausses de salaires qui entretiennent l’inflation ; la Banque de France voit l’inflation hors énergie et alimentation passer de 1,6 % en 2026 à 2,3 % en 2027 sous cet effet."],
+            ["Quelles sont les prévisions d’inflation pour 2026 et 2027 ?", "Le gouvernement retient 2,1 % en moyenne annuelle en 2026 puis 1,8 % en 2027 (PLF 2027) ; la Banque de France (septembre 2026) prévoit 2,3 % en 2026 puis 1,9 % en 2027 en indice harmonisé."],
+            ["Quelle a été la réaction de la BCE en 2026 ?", "Deux hausses de taux de 25 points de base, en juin et en septembre, puis un statu quo le 29 octobre : taux de dépôt à 2,50 % ; une nouvelle hausse en décembre est envisagée si le choc énergétique persiste."],
+            ["Avantages et inconvénients d’une hausse des taux contre l’inflation ?", "Avantage : casser les anticipations d’inflation et les effets de second tour. Inconvénients : freiner croissance et investissement, renchérir la charge de la dette des États et le crédit immobilier."],
+            ["Avantages et inconvénients des boucliers tarifaires et des aides ciblées ?", "Avantages : protection immédiate du pouvoir d’achat, surtout des ménages modestes. Inconvénients : coût budgétaire élevé, signal-prix brouillé qui maintient la consommation d’énergie chère, et soutien à la demande qui peut alimenter l’inflation."],
+            ["Comment l’inflation frappe-t-elle le pouvoir d’achat en 2026 ?", "Le pouvoir d’achat par unité de consommation recule de 0,6 % au 2e trimestre 2026, avec un acquis de -0,7 % pour l’année ; les 20 % les plus modestes subissent 3,6 % d’inflation en octobre, contre 3,4 % en moyenne, car l’énergie et l’alimentation pèsent plus dans leur budget."],
+            ["Quel est le montant de la dette publique française ?", "3 595,5 Md€ fin juin 2026, soit 119,0 % du PIB (Insee), contre 117,5 % fin mars 2026."],
+            ["Quelle est la trajectoire du déficit public ?", "5,1 % du PIB en 2025, 5,4 % en 2026 (révisé à la hausse), objectif de 5,0 % en 2027 grâce à un ajustement de 54 Md€ ; à politique inchangée, le déficit 2027 atteindrait 6,5 % du PIB."],
+            ["Quelles sont les règles européennes de déficit et de dette ?", "Un déficit inférieur à 3 % du PIB et une dette inférieure à 60 % du PIB (critères de Maastricht) ; le pacte réformé en 2024 encadre surtout la croissance des dépenses nettes, avec des trajectoires d’ajustement propres à chaque pays."],
+            ["La France respecte-t-elle les règles européennes ?", "Non : déficit de 5,4 % du PIB et dette de 119 % du PIB en 2026, très au-dessus des seuils de 3 % et de 60 % ; la France fait l’objet d’une procédure de déficit excessif et s’est engagée sur une trajectoire de redressement."],
+            ["Pourquoi la dette continue-t-elle de progresser ?", "Un déficit primaire persistant (environ 2 points de PIB hors intérêts), une charge d’intérêts croissante et une croissance faible : tant que le taux d’intérêt moyen dépasse la croissance, l’effet boule de neige joue contre le ratio de dette."],
+            ["À combien s’élève la charge de la dette ?", "79 Md€ en 2026 puis 91 Md€ en 2027, soit 2,9 % du PIB ; elle dépasserait 100 Md€ en 2028 et deviendrait le premier poste de dépenses de l’État."],
+            ["Qu’est-ce que l’effet boule de neige de la dette ?", "Quand le taux d’intérêt moyen sur la dette dépasse le taux de croissance du PIB, le ratio de dette augmente mécaniquement, même à déficit primaire inchangé ; l’OAT à 10 ans a frôlé 5 % début octobre 2026, un plus haut depuis plus de vingt ans."],
+            ["Quelles sont les marges de manœuvre de la France face à la dette ?", "Réduire le déficit primaire par les dépenses (gels, sous-indexations) ou par les recettes, et relever la croissance potentielle, estimée à 1,2 % ; les leviers des taux et de l’inflation relèvent de la BCE, pas de Paris. Le Conseil d’analyse économique chiffrait à environ 112 Md€ l’ajustement nécessaire pour stabiliser la dette."],
+            ["Que dit le Haut Conseil des finances publiques du budget 2027 ?", "Il appelle à reprendre le contrôle de la dette, juge l’hypothèse de croissance de 1 % optimiste et ne retient qu’environ 40 Md€ d’effort réel hors charge d’intérêts, contre 54 Md€ affichés par le gouvernement."],
+            ["Pourquoi les marchés s’inquiètent-ils de la dette française ?", "Dette proche de 120 % du PIB, déficit durablement supérieur à 5 % et instabilité politique à l’approche de la présidentielle d’avril 2027 : les investisseurs exigent une prime de risque croissante sur la dette française."],
+            ["Quelle est la situation de la croissance française fin 2026 ?", "Le PIB a reculé de 0,1 % au 3e trimestre 2026, après 0 % au 2e trimestre et -0,2 % au 1er : la France flirte avec la récession technique, plombée par le choc énergétique."],
+            ["Quelles sont les prévisions de croissance pour 2026 et 2027 ?", "Banque de France (septembre 2026) : 0,4 % en 2026 puis 0,9 % en 2027 ; le gouvernement retient 0,5 % en 2026 et fonde le budget 2027 sur 1,0 %, une hypothèse jugée optimiste par le Haut Conseil des finances publiques."],
+            ["Quel est le taux de chômage en France ?", "8,2 % de la population active au 3e trimestre 2026 (Insee, au sens du BIT), soit 2,63 millions de chômeurs, après 8,3 % au 2e trimestre ; la Banque de France le voit remonter à 8,4 % fin 2026."],
+            ["Comment évolue l’emploi en 2026 ?", "L’emploi salarié privé recule pour le septième trimestre consécutif (-0,1 %) et le chômage des 15-24 ans atteint 21 % : le marché du travail se dégrade lentement, sans rupture brutale."],
+            ["Quels sont les moteurs et les freins de la conjoncture fin 2026 ?", "Freins : prix de l’énergie, taux d’intérêt relevés et incertitude politique. Moteurs résiduels : exportations aéronautiques et de services, et une consommation amortie par un taux d’épargne élevé, 17,2 % du revenu disponible au 2e trimestre."],
+            ["Qu’est-ce que la croissance potentielle ?", "La croissance maximale soutenable sans tensions inflationnistes, déterminée par le travail, le capital et la productivité ; elle est estimée à environ 1,2 % par an pour la France."],
+            ["Pourquoi le choc énergétique pèse-t-il doublement sur la France ?", "Il agit comme une taxe prélevée par l’étranger : il dégrade à la fois le pouvoir d’achat et la balance commerciale, tout en poussant la BCE à durcir sa politique monétaire, ce qui freine l’investissement."],
+            ["Quel est le niveau des taux souverains français fin 2026 ?", "L’OAT à 10 ans a frôlé 5 % début octobre 2026, un plus haut depuis plus de vingt ans, sous l’effet conjugué des hausses de taux de la BCE et des doutes sur la trajectoire budgétaire."],
+            ["Quelles hypothèses le budget 2027 retient-il ?", "Une croissance de 1,0 %, une inflation de 1,8 % en moyenne annuelle et des dépenses publiques en hausse de 0,6 % en volume ; le Haut Conseil des finances publiques juge ce scénario optimiste au vu du choc énergétique."],
+            ["Qu’est-ce que le projet de loi de finances ?", "Le texte par lequel le gouvernement présente chaque automne les recettes et les dépenses de l’État pour l’année suivante ; le PLF 2027 a été présenté en conseil des ministres le 1er octobre 2026."],
+            ["Quelles sont les étapes d’adoption du budget ?", "Dépôt à l’Assemblée nationale début octobre, examen en commission des finances puis en séance, navette avec le Sénat et promulgation avant le 31 décembre ; le Parlement dispose de 70 jours au total (article 47 de la Constitution), dont 40 jours en première lecture à l’Assemblée et 20 jours au Sénat."],
+            ["Quel est le rôle du Parlement dans le budget ?", "Il vote la loi de finances et peut modifier les crédits, dans la limite de l’article 40 de la Constitution, qui interdit d’aggraver les charges ou de diminuer les recettes sans compensation ; son action est encadrée par la LOLF et par les délais constitutionnels."],
+            ["Qu’est-ce que le 49.3 et quand peut-il porter sur le budget ?", "L’article 49, alinéa 3, de la Constitution permet au gouvernement d’engager sa responsabilité sur un texte, adopté sauf si une motion de censure est votée ; depuis 2008, son usage est réservé aux lois de finances, aux lois de financement de la sécurité sociale et à un seul autre texte par session."],
+            ["Quelle est la différence entre le budget de l’État et celui de la sécurité sociale ?", "Le PLF couvre l’État (ministères, défense, éducation) ; la loi de financement de la sécurité sociale, votée séparément chaque automne, couvre les régimes sociaux (santé, retraites, famille), dont les dépenses dépassent celles de l’État."],
+            ["Qu’est-ce que la LOLF ?", "La loi organique relative aux lois de finances, votée en 2001 et appliquée depuis 2006, organise le budget en missions et en programmes et impose une logique de performance, avec des objectifs et des indicateurs pour chaque politique publique."],
+            ["Que contient l’ajustement de 54 Md€ du PLF 2027 ?", "Essentiellement des économies de dépenses : gel du point d’indice des fonctionnaires, sous-indexation des pensions et de certaines prestations, gel de crédits ministériels et économies sur la santé ; côté recettes, une prolongation allégée de la surtaxe d’impôt sur les sociétés."],
+            ["Qu’est-ce que le solde primaire ?", "Le solde public hors charge d’intérêts ; il reste déficitaire d’environ 2 points de PIB, ce qui signifie que l’État emprunte encore pour financer ses dépenses courantes, avant même de payer les intérêts de sa dette."],
+            ["Quel est le rôle du Haut Conseil des finances publiques ?", "Organisme indépendant rattaché à la Cour des comptes, il juge la sincérité des prévisions macroéconomiques et budgétaires du gouvernement et alerte sur les écarts avec la trajectoire européenne de redressement."],
+            ["Quel est le déficit commercial de la France ?", "69,2 Md€ sur les biens en 2025 (Douanes), en amélioration de 10 Md€ sur un an, mais il se recreuse en 2026 : 7,3 Md€ sur le seul mois de septembre et 64,4 Md€ en cumul sur douze mois."],
+            ["Pourquoi le déficit commercial s’est-il amélioré en 2025 ?", "Principalement par la baisse de la facture énergétique, environ 11 Md€ de moins, et par le dynamisme des exportations aéronautiques, plus que par un rebond général de la compétitivité."],
+            ["Citez trois causes structurelles du déficit commercial.", "La facture énergétique, car la France importe presque tout son pétrole et son gaz ; la désindustrialisation, qui impose d’importer des biens manufacturés ; une compétitivité-prix insuffisante face à l’Allemagne et à la Chine."],
+            ["Quel a été le déficit commercial record et quand ?", "161,7 Md€ en 2022, sous l’effet de la guerre en Ukraine et de l’envolée des prix de l’énergie ; le solde s’est redressé depuis 2023 sans retrouver son niveau de 2019."],
+            ["Quels sont les points forts de la France à l’exportation ?", "L’aéronautique et le spatial, excédent record de 33 Md€ en 2025 grâce aux livraisons d’Airbus ; le luxe, les parfums et cosmétiques et la pharmacie ; et les services, excédentaires de 56 Md€, dont 20 Md€ pour le tourisme."],
+            ["Quel signal inquiétant donne l’agroalimentaire à l’export ?", "Son excédent est tombé à 0,2 Md€ en 2025, le plus bas depuis au moins 2000, et le solde des produits agricoles bruts est devenu déficitaire, à -0,3 Md€ : un pilier historique de l’excédent français s’effondre."],
+            ["Comment la facture énergétique pèse-t-elle en 2026 ?", "Elle se réalourdit avec la guerre au Moyen-Orient : 4,2 Md€ de déficit énergétique sur le seul mois de septembre 2026 (Banque de France), tandis que le déficit des biens hors énergie se creuse aussi, à -2,0 Md€."],
+            ["Quel est l’impact de la politique commerciale américaine ?", "Depuis l’été 2025, les produits européens sont taxés à 15 % à l’entrée des États-Unis ; les exportations françaises y ont mieux résisté que celles de l’Allemagne, mais, hors aéronautique, elles reculent nettement, avec des chutes de 39 % pour les vins et de 47 % pour les spiritueux au 4e trimestre 2025."],
+            ["Quelle est la différence entre déficit commercial et déficit courant ?", "Le déficit commercial ne couvre que les biens ; le déficit des transactions courantes ajoute les services, excédentaires, et les revenus : il s’établit à 12,5 Md€ en 2025, bien inférieur au déficit des biens."],
+            ["Quelles réponses pour réduire durablement le déficit extérieur ?", "Réduire la dépendance énergétique (nucléaire, renouvelables, sobriété), réindustrialiser les segments importés et soutenir les filières excédentaires ; limite : ces politiques agissent en années, pas en mois, et ne corrigent pas un choc de prix de l’énergie."],
+            ["Qu’est-ce que le plan France 2030 ?", "Un plan d’investissement de plus de 50 Md€ sur cinq ans en faveur des filières stratégiques (énergie, automobile, santé, aéronautique, numérique) et de la souveraineté industrielle et technologique de la France."],
+            ["Quel est le bilan chiffré de la réindustrialisation ?", "Le baromètre industriel de l’État affiche un solde net de +19 ouvertures et extensions d’usines en 2025, contre +88 en 2024 : la dynamique reste positive mais ralentit nettement ; plus de 150 usines sont en cours de création ou programmées pour 2026."],
+            ["Qu’est-ce que le C3IV ?", "Le crédit d’impôt au titre des investissements dans l’industrie verte, en vigueur depuis 2024 et prolongé jusqu’à fin 2028 : taux de base de 15 % pour les batteries, les panneaux solaires, les éoliennes et les pompes à chaleur ; 76 projets soutenus, associés à près de 30 Md€ d’investissements."],
+            ["Comment mesurer la désindustrialisation passée ?", "La part de l’emploi industriel est passée de 26 % en 1990 à 11,2 % en 2024, soit plus d’un million d’emplois industriels perdus ; la France figure parmi les pays les plus désindustrialisés du G7."],
+            ["Quels sont les freins à la réindustrialisation ?", "Le coût de l’énergie, exacerbé par le choc de 2026 ; les délais et la complexité des implantations ; les difficultés de recrutement dans les métiers industriels ; la concurrence des subventions américaines et des prix chinois."],
+            ["Comment la loi Industrie verte de 2023 agit-elle ?", "Elle simplifie et accélère les implantations : procédure d’autorisation environnementale unique pour les installations classées, délais réduits et foncier industriel préparé à l’avance sur des sites dits clés en main."],
+            ["En quoi consiste la souveraineté énergétique française ?", "Relancer le nucléaire, qui porte l’excédent d’exportation d’électricité à un niveau record de 5,4 Md€ en 2025, et déployer les renouvelables, pour réduire la dépendance aux hydrocarbures importés, qui alimente à la fois le déficit commercial et l’inflation importée."],
+            ["Quels résultats pour les filières industrielles d’avenir ?", "Batteries dans les Hauts-de-France, semi-conducteurs à Rousset, hydrogène à Belfort, pharmacie à Sassenage : les gigafactories avancent, mais les grands groupes ferment aussi davantage de sites, avec 59 fermetures contre 42 ouvertures en 2025."],
+            ["La réindustrialisation suffit-elle à corriger le déficit extérieur ?", "Non à ce stade : le déficit des biens hors énergie se creuse encore en 2026 (-2,0 Md€ en septembre) ; transformer des ouvertures d’usines en parts de marché à l’exportation prendra des années."],
+            ["Comment le marché du travail réagit-il au ralentissement ?", "Le chômage remonte lentement, à 8,2 % au 3e trimestre 2026 contre 7,7 % un an plus tôt, et l’emploi salarié privé baisse depuis sept trimestres : l’ajustement passe par les embauches plus que par des licenciements massifs."],
+            ["Quelles mesures pour l’emploi figurent dans le débat budgétaire de l’automne 2026 ?", "Le gel des allègements de cotisations sur les bas salaires, le relèvement à 10 000 € du plafond de défiscalisation des heures supplémentaires et, après la conférence sociale du 9 novembre, une revalorisation du Smic de 1,6 % annoncée au 1er décembre."],
+            ["Où en est le Smic en 2026 ?", "1 801,80 € brut mensuel au 1er janvier (+2 %), puis 1 867,02 € depuis le 1er juin grâce à la revalorisation automatique en cours d’année, déclenchée lorsque l’inflation des ménages modestes dépasse 2 % sur la période de référence."],
+            ["Pourquoi le logement est-il un point de tension en 2026 ?", "La hausse des taux (BCE à 2,50 %) renchérit le crédit immobilier et les coûts de construction pèsent sur les programmes neufs, ce qui fait chuter les mises en chantier, tend les loyers et freine la mobilité des salariés (ampleur exacte du recul des chantiers : à vérifier)."],
+            ["Quel est le lien entre politique monétaire et crise du logement ?", "Les hausses de taux de la BCE se transmettent aux taux des crédits immobiliers : la demande des ménages et la rentabilité des programmes neufs chutent ensemble, et la construction, secteur très cyclique, amplifie le ralentissement général."],
+            ["Où en est la transition électrique de l’automobile ?", "L’électrique atteint 41,5 % des immatriculations en octobre 2026 et 32,5 % sur les dix premiers mois de l’année ; les marques françaises en captent près de 44 %, portées par les citadines comme la Renault 5 et la Twingo, tandis que Bruxelles a plafonné les importations d’hybrides chinois à 350 000 véhicules par an."],
+            ["Quels sont les risques pour la filière automobile française ?", "La concurrence chinoise sur les prix, les droits de douane américains de 15 % et le coût de la transition pour les équipementiers ; l’enjeu est de localiser en Europe la chaîne de valeur des batteries."],
+            ["Citez trois causes de la crise agricole de 2026.", "L’explosion des intrants liée à la guerre au Moyen-Orient, avec un gazole non routier en hausse d’environ 100 % au printemps et des engrais azotés indexés sur le gaz ; la baisse des prix payés aux producteurs, notamment le lait, en recul de 80 à 100 € pour 1 000 litres sur un an ; la concurrence des importations et un renouvellement des générations insuffisant."],
+            ["Pourquoi les engrais sont-ils un enjeu de souveraineté ?", "Environ 30 % de la production mondiale d’urée transite par le détroit d’Ormuz et la France importe l’essentiel de ses engrais, notamment d’Égypte, de Russie et d’Algérie pour l’urée : un blocage durable réduirait les rendements et la production dès la campagne 2027."]
+          ]
+        }
+      ];
+
+      /* ============================================================
          Données et sauvegarde locale
          Carte : { id, f (recto), b (verso), s (score 0..3), seen }
          Maîtrisée = score >= 2 (deux « Je savais » d'affilée valent 2,
@@ -551,6 +632,18 @@
         return added;
       }
 
+      // Même principe pour le paquet géoéconomie : ajout automatique
+      // chez les utilisatrices existantes, sans toucher à la progression.
+      function ensureEcoDecks() {
+        var added = false;
+        ECO_DECKS.forEach(function (def) {
+          var exists = false;
+          for (var i = 0; i < state.decks.length; i++) if (state.decks[i].id === def.id) exists = true;
+          if (!exists) { state.decks.push(makeBuiltinDeck(def)); added = true; }
+        });
+        return added;
+      }
+
       function seedState() {
         var cards = [];
         function addAll(list) {
@@ -563,6 +656,7 @@
         addAll(ARTICLES_P2);
         var decks = [{ id: uid("d"), name: "Constitution du 4 octobre 1958 — Concours MEAE", cards: cards }];
         EU_DECKS.forEach(function (def) { decks.push(makeBuiltinDeck(def)); });
+        ECO_DECKS.forEach(function (def) { decks.push(makeBuiltinDeck(def)); });
         return { decks: decks };
       }
 
@@ -575,7 +669,7 @@
           var raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             var parsed = JSON.parse(raw);
-            if (parsed && Array.isArray(parsed.decks)) { state = parsed; if (ensureEUDecks()) save(); return; }
+            if (parsed && Array.isArray(parsed.decks)) { state = parsed; var changed = ensureEUDecks(); if (ensureEcoDecks()) changed = true; if (changed) save(); return; }
           }
         } catch (e) { /* on repart du paquet initial */ }
         state = seedState();
