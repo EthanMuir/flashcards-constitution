@@ -101,6 +101,9 @@
       .deck-meta { color: var(--ink-soft); font-size: 0.92rem; margin: 2px 0 12px; }
       .progress-track { height: 10px; border-radius: 999px; background: var(--surface-2); overflow: hidden; margin: 10px 0 14px; }
       .progress-fill { height: 100%; background: var(--green); border-radius: 999px; transition: width 0.3s ease; }
+      .progress-track.split { display: flex; }
+      .progress-track.split .progress-fill { border-radius: 0; }
+      .progress-fill.learning { background: var(--amber); }
       .deck-actions { display: flex; flex-wrap: wrap; gap: 8px; }
       .deck-actions .btn.primary { flex: 1 1 140px; }
       .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
@@ -182,7 +185,7 @@
       #love-toast.show { opacity: 1; transform: translate(-50%, 0); }
       .heart-particle {
         position: fixed; bottom: 12vh; z-index: 59; pointer-events: none;
-        color: #d6455a; animation: heartFloat 2.8s ease-out forwards;
+        color: #d6455a; animation: heartFloat 3.8s ease-out forwards;
       }
       @keyframes heartFloat {
         0% { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
@@ -237,7 +240,7 @@
           <h2 id="study-deck-name">Paquet</h2>
           <span class="study-count" id="study-count"></span>
         </div>
-        <div class="progress-track"><div class="progress-fill" id="study-progress" style="width:0%"></div></div>
+        <div class="progress-track split"><div class="progress-fill" id="study-progress" style="width:0%"></div><div class="progress-fill learning" id="study-progress-learning" style="width:0%"></div></div>
         <div id="study-main">
           <div class="card-scene">
             <div class="card-inner" id="flashcard" role="button" tabindex="0" aria-label="Carte de révision. Touchez pour retourner.">
@@ -961,6 +964,11 @@
         for (var i = 0; i < deck.cards.length; i++) if (deck.cards[i].s >= 2) n++;
         return n;
       }
+      function learningCount(deck) {
+        var n = 0;
+        for (var i = 0; i < deck.cards.length; i++) if (deck.cards[i].s < 2 && deck.cards[i].seen > 0) n++;
+        return n;
+      }
       function showView(name) {
         var views = ["view-home", "view-study", "view-manage"];
         for (var i = 0; i < views.length; i++) $(views[i]).classList.toggle("active", views[i] === name);
@@ -980,13 +988,15 @@
         state.decks.forEach(function (deck) {
           var total = deck.cards.length;
           var done = masteredCount(deck);
+          var learning = learningCount(deck);
           var pct = total ? Math.round((done / total) * 100) : 0;
+          var pctLearning = total ? Math.round((learning / total) * 100) : 0;
           var div = document.createElement("div");
           div.className = "deck";
           div.innerHTML =
             "<h2>" + esc(deck.name) + "</h2>" +
-            '<p class="deck-meta">' + done + " carte" + (done > 1 ? "s" : "") + " maîtrisée" + (done > 1 ? "s" : "") + " sur " + total + "</p>" +
-            '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+            '<p class="deck-meta">' + done + " carte" + (done > 1 ? "s" : "") + " maîtrisée" + (done > 1 ? "s" : "") + (learning > 0 ? " · " + learning + " en cours" : "") + " sur " + total + "</p>" +
+            '<div class="progress-track split"><div class="progress-fill" style="width:' + pct + '%"></div><div class="progress-fill learning" style="width:' + pctLearning + '%"></div></div>' +
             '<div class="deck-actions">' +
               '<button class="btn primary" type="button" data-act="study">Réviser</button>' +
               '<button class="btn" type="button" data-act="manage">Cartes et réglages</button>' +
@@ -1120,6 +1130,8 @@
         $("study-count").textContent = "Plus que " + remaining + " carte" + (remaining > 1 ? "s" : "") + " dans cette session";
         var pct = session.totalPlanned ? Math.min(100, Math.round((masteredCount(deck) / Math.max(1, deck.cards.length)) * 100)) : 0;
         $("study-progress").style.width = pct + "%";
+        var pctL = Math.round((learningCount(deck) / Math.max(1, deck.cards.length)) * 100);
+        $("study-progress-learning").style.width = pctL + "%";
       }
       function flipCard() {
         if (!session || session.flipped) return;
@@ -1184,7 +1196,7 @@
         el.textContent = msg;
         el.classList.add("show");
         clearTimeout(loveToastTimer);
-        loveToastTimer = setTimeout(function () { el.classList.remove("show"); }, 3400);
+        loveToastTimer = setTimeout(function () { el.classList.remove("show"); }, 6500);
       }
       function burstHearts(n) {
         for (var i = 0; i < n; i++) {
@@ -1195,7 +1207,7 @@
           s.style.fontSize = (16 + Math.random() * 22) + "px";
           s.style.animationDelay = (Math.random() * 0.5) + "s";
           document.body.appendChild(s);
-          setTimeout((function (el) { return function () { el.remove(); }; })(s), 3600);
+          setTimeout((function (el) { return function () { el.remove(); }; })(s), 4800);
         }
       }
       function celebrate(deck, masteredBefore) {
@@ -1205,8 +1217,8 @@
           loveToast(now + " cartes maîtrisées ! Ethan est très fier de toi.");
           return;
         }
-        if (session && session.streak > 0 && session.streak % 5 === 0) {
-          if (session.streak % 10 === 0) { burstHearts(6); loveToast(pickFrom(ETHAN_NOTES)); }
+        if (session && session.streak > 0 && session.streak % 3 === 0) {
+          if (session.streak % 6 === 0) { burstHearts(6); loveToast(pickFrom(ETHAN_NOTES)); }
           else loveToast(pickFrom(LOVE_NOTES));
         }
       }
@@ -1276,7 +1288,7 @@
         var deck = getDeck(manageDeckId);
         if (!deck) { renderHome(); showView("view-home"); return; }
         $("manage-title").textContent = deck.name;
-        $("manage-meta").textContent = deck.cards.length + " carte(s) — " + masteredCount(deck) + " maîtrisée(s).";
+        $("manage-meta").textContent = deck.cards.length + " carte(s) — " + masteredCount(deck) + " maîtrisée(s), " + learningCount(deck) + " en cours.";
         $("rename-input").value = deck.name;
         var list = $("card-list");
         list.innerHTML = "";
