@@ -202,6 +202,14 @@
         text-shadow: 0 2px 20px rgba(214, 51, 132, 0.9); position: relative; z-index: 2; min-height: 2.2em;
       }
       #mega-sub { color: #ffe3ef; margin-top: 10px; font-size: 0.95rem; position: relative; z-index: 2; }
+      #mega-gift { margin-top: 26px; position: relative; z-index: 2; cursor: pointer; }
+      #mega-gift-box { font-size: clamp(3.4rem, 16vw, 5.2rem); line-height: 1.1; display: inline-block; animation: mega-gift-bounce 1.1s ease-in-out infinite; }
+      #mega-gift-label { color: #ffffff; font-weight: 700; margin-top: 6px; font-size: 1.02rem; text-shadow: 0 2px 14px rgba(214, 51, 132, 0.9); }
+      @keyframes mega-gift-bounce { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-12px) rotate(3deg); } }
+      #mega-gift-reveal { margin-top: 26px; position: relative; z-index: 2; padding: 0 10px; }
+      #mega-gift-title { color: #ffffff; font-weight: 800; font-size: clamp(1.5rem, 6.5vw, 2.3rem); text-shadow: 0 3px 22px rgba(214, 51, 132, 0.95); }
+      #mega-gift-sub { color: #ffe3ef; margin-top: 8px; font-size: 1.05rem; font-weight: 600; }
+      .mega-gift-opening { animation: mega-pop 0.55s ease both; }
       .mega-msg-anim { animation: mega-pop 0.6s ease both; }
       @keyframes mega-pop { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.14); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
       .heart-particle {
@@ -226,6 +234,14 @@
     <div id="mega-celebration" role="dialog" aria-label="Célébration">
       <div id="mega-title">BRAVO JULIE !</div>
       <div id="mega-message">Ethan t'aime !</div>
+      <div id="mega-gift" role="button" aria-label="Ouvrir le cadeau">
+        <div id="mega-gift-box">🎁</div>
+        <div id="mega-gift-label">Un cadeau pour toi — touche pour l'ouvrir !</div>
+      </div>
+      <div id="mega-gift-reveal" style="display:none">
+        <div id="mega-gift-title">Ethan t'offre un Uber Eats ce soir !</div>
+        <div id="mega-gift-sub">Bon courage pour ton examen — tu vas tout déchirer, future diplomate !</div>
+      </div>
       <div id="mega-sub">Touche l'écran pour continuer ♥</div>
     </div>
       <!-- ================= ACCUEIL ================= -->
@@ -1338,8 +1354,10 @@
       /* ---------- La grande célébration (fin de la révision générale) ---------- */
       var MEGA_MESSAGES = [
         "Ethan t'aime !",
+        "Bonne chance pour ton examen !",
         "Il est tellement fier de toi !",
         "Tu as terminé la révision générale !",
+        "Bon courage, tu vas briller !",
         "Future diplomate, le Quai d'Orsay t'attend !",
         "Ethan t'aime très fort. Très, très fort."
       ];
@@ -1386,9 +1404,35 @@
         ], { duration: 3800 + Math.random() * 2200, delay: delay, easing: "linear", fill: "forwards" });
         anim.onfinish = function () { h.remove(); };
       }
+      var megaGiftOpened = false;
+      function openMegaGift(e) {
+        if (e) e.stopPropagation();
+        if (megaGiftOpened) return;
+        megaGiftOpened = true;
+        var gift = $("mega-gift");
+        var reveal = $("mega-gift-reveal");
+        if (gift) gift.style.display = "none";
+        if (reveal) {
+          reveal.style.display = "block";
+          reveal.classList.remove("mega-gift-opening"); void reveal.offsetWidth; reveal.classList.add("mega-gift-opening");
+        }
+        var overlay = $("mega-celebration");
+        if (overlay) { for (var i = 0; i < 40; i++) megaBurstHeart(overlay, Math.random() * 500); }
+        if (megaInterval) { clearInterval(megaInterval); megaInterval = null; }
+        var msgEl = $("mega-message");
+        if (msgEl) msgEl.textContent = "Bonne chance pour ton examen, Julie !";
+        if (megaHideTimer) clearTimeout(megaHideTimer);
+        megaHideTimer = setTimeout(hideMegaCelebration, 9000);
+      }
+      $("mega-gift").addEventListener("click", openMegaGift);
       function megaCelebration() {
         var overlay = $("mega-celebration");
         if (!overlay) return;
+        megaGiftOpened = false;
+        var giftEl = $("mega-gift");
+        if (giftEl) giftEl.style.display = "";
+        var revealEl = $("mega-gift-reveal");
+        if (revealEl) revealEl.style.display = "none";
         var title = $("mega-title");
         var msgEl = $("mega-message");
         overlay.classList.add("show");
@@ -1407,7 +1451,7 @@
           msgEl.classList.remove("mega-msg-anim"); void msgEl.offsetWidth; msgEl.classList.add("mega-msg-anim");
         }, 2100);
         if (megaHideTimer) clearTimeout(megaHideTimer);
-        megaHideTimer = setTimeout(hideMegaCelebration, 12500);
+        megaHideTimer = setTimeout(hideMegaCelebration, 20000);
         overlay.onclick = hideMegaCelebration;
       }
       function hideMegaCelebration() {
