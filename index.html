@@ -184,6 +184,26 @@
         z-index: 60; max-width: 88vw; text-align: center;
       }
       #love-toast.show { opacity: 1; transform: translate(-50%, 0); }
+      #mega-celebration {
+        position: fixed; inset: 0; z-index: 999; display: none;
+        align-items: center; justify-content: center; flex-direction: column;
+        background: radial-gradient(circle at 50% 38%, rgba(255, 77, 141, 0.30), rgba(214, 51, 132, 0.52));
+        overflow: hidden; text-align: center; padding: 24px; cursor: pointer;
+      }
+      #mega-celebration.show { display: flex; }
+      .mega-heart { position: absolute; line-height: 1; pointer-events: none; will-change: transform, opacity; z-index: 1; }
+      #mega-title {
+        font-family: "Source Serif 4", Georgia, serif; font-weight: 800; color: #ffffff;
+        font-size: clamp(2.3rem, 10vw, 4.2rem); text-shadow: 0 4px 34px rgba(214, 51, 132, 0.9);
+        position: relative; z-index: 2;
+      }
+      #mega-message {
+        color: #ffffff; font-size: clamp(1.35rem, 6vw, 2.1rem); font-weight: 700; margin-top: 16px;
+        text-shadow: 0 2px 20px rgba(214, 51, 132, 0.9); position: relative; z-index: 2; min-height: 2.2em;
+      }
+      #mega-sub { color: #ffe3ef; margin-top: 10px; font-size: 0.95rem; position: relative; z-index: 2; }
+      .mega-msg-anim { animation: mega-pop 0.6s ease both; }
+      @keyframes mega-pop { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.14); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
       .heart-particle {
         position: fixed; bottom: 12vh; z-index: 59; pointer-events: none;
         color: #d6455a; animation: heartFloat 3.8s ease-out forwards;
@@ -203,6 +223,11 @@
   <body>
     <main>
       <div id="love-toast" role="status"></div>
+    <div id="mega-celebration" role="dialog" aria-label="Célébration">
+      <div id="mega-title">BRAVO JULIE !</div>
+      <div id="mega-message">Ethan t'aime !</div>
+      <div id="mega-sub">Touche l'écran pour continuer ♥</div>
+    </div>
       <!-- ================= ACCUEIL ================= -->
       <section id="view-home" class="view active">
         <h1>Mes paquets de révision <button class="love-heart-btn" id="love-heart" type="button" aria-label="Un petit cœur pour Julie">♥</button></h1>
@@ -858,6 +883,75 @@
         }
       ];
 
+      var REVISION_DECKS = [
+        {
+          id: "revision-generale",
+          name: "Révision générale",
+          cards: [
+            ["Que proclame l'article 1er de la Constitution ?", "La France est une République indivisible, laïque, démocratique et sociale ; elle assure l'égalité devant la loi de tous les citoyens sans distinction d'origine, de race ou de religion, et son organisation est décentralisée."],
+            ["À qui appartient la souveraineté nationale selon l'article 3 de la Constitution ?", "Au peuple, qui l'exerce par ses représentants et par la voie du référendum ; le suffrage est universel, égal et secret."],
+            ["Quel est le rôle du Président de la République selon l'article 5 de la Constitution ?", "Il veille au respect de la Constitution, assure le fonctionnement régulier des pouvoirs publics et la continuité de l'État ; il est le garant de l'indépendance nationale, de l'intégrité du territoire et du respect des traités."],
+            ["Comment le Président de la République est-il élu et pour combien de temps ?", "Au suffrage universel direct, pour un mandat de cinq ans (le quinquennat), nul ne pouvant exercer plus de deux mandats consécutifs."],
+            ["Quel article permet au Président de dissoudre l'Assemblée nationale ?", "Constitution, article 12 : la dissolution est prononcée après consultation du Premier ministre et des présidents des assemblées ; les élections ont lieu vingt jours au moins et quarante jours au plus après la dissolution."],
+            ["Que prévoit l'article 16 de la Constitution ?", "Les pouvoirs exceptionnels : lorsque les institutions, l'indépendance de la nation ou l'exécution des engagements internationaux sont menacés de manière grave et immédiate, le Président prend les mesures exigées par les circonstances."],
+            ["Qui nomme les ambassadeurs et qui les accrédite, selon la Constitution ?", "Le Président de la République nomme aux emplois civils et militaires dont les ambassadeurs (article 13) et il accrédite les ambassadeurs français auprès des puissances étrangères, qui accréditent les leurs auprès de lui (article 14)."],
+            ["Qui est le chef des armées et qui est responsable de la défense nationale ?", "Le Président de la République est le chef des armées (article 15) ; le Gouvernement dispose de la force armée (article 20) et le Premier ministre est responsable de la défense nationale (article 21)."],
+            ["Quel article organise la négociation et la ratification des traités ?", "Constitution, article 52 : le Président négocie et ratifie les traités ; il est informé de toute négociation tendant à la conclusion d'un accord international non soumis à ratification."],
+            ["Quels traités ne peuvent être ratifiés qu'en vertu d'une loi (article 53) ?", "Les traités de paix, les traités de commerce, les traités relatifs à l'organisation internationale, ceux qui engagent les finances de l'État, modifient des dispositions législatives, concernent l'état des personnes ou comportent cession de territoire."],
+            ["Quelle est la place des traités dans la hiérarchie des normes (article 55) ?", "Les traités régulièrement ratifiés ont, dès leur publication, une autorité supérieure à celle des lois, sous réserve de leur application par l'autre partie (condition de réciprocité)."],
+            ["Que se passe-t-il si le Conseil constitutionnel juge un engagement international contraire à la Constitution (article 54) ?", "L'accord ne peut être ratifié ou approuvé qu'après révision de la Constitution."],
+            ["Comment la Constitution peut-elle être révisée (article 89) ?", "Par référendum, ou par le Parlement réuni en Congrès statuant à la majorité des trois cinquièmes des suffrages exprimés ; la forme républicaine du gouvernement ne peut faire l'objet d'une révision."],
+            ["Que dit l'article 88-1 de la Constitution sur l'Union européenne ?", "La République participe à l'Union européenne, constituée d'États qui ont choisi librement d'exercer en commun certaines de leurs compétences en vertu du traité sur l'Union européenne et du traité sur le fonctionnement de l'Union européenne."],
+            ["Quelles sont les valeurs fondatrices de l'Union (TUE, article 2) ?", "La dignité humaine, la liberté, la démocratie, l'égalité, l'État de droit et le respect des droits de l'homme, y compris les droits des personnes appartenant à des minorités."],
+            ["Que prévoit le TUE, article 7 ?", "Une procédure contre un État membre en cas de risque clair de violation grave, ou de violation grave et persistante, des valeurs de l'article 2 : elle peut aboutir à la suspension de certains droits, dont le droit de vote au Conseil."],
+            ["Quel principe régit la répartition des compétences entre l'Union et les États membres (TUE, article 5) ?", "Le principe d'attribution : l'Union n'agit que dans les limites des compétences que les États lui ont attribuées ; s'y ajoutent les principes de subsidiarité et de proportionnalité."],
+            ["Quelle institution détient l'essentiel du pouvoir d'initiative législative dans l'Union ?", "La Commission européenne (TUE, article 17) : gardienne des traités, elle propose les textes législatifs et veille à l'application du droit de l'Union."],
+            ["Que prévoit le TUE, article 42 §7 ?", "La clause d'assistance mutuelle : si un État membre est victime d'une agression armée sur son territoire, les autres États lui doivent aide et assistance par tous les moyens en leur pouvoir."],
+            ["Comment un État peut-il adhérer à l'Union (TUE, article 49) ?", "Tout État européen respectant les valeurs de l'article 2 peut demander à adhérer ; l'admission exige l'unanimité du Conseil, l'approbation du Parlement européen et un traité d'adhésion ratifié par tous les États membres."],
+            ["Comment un État membre peut-il se retirer de l'Union (TUE, article 50) ?", "En notifiant son intention au Conseil européen ; l'accord de retrait est conclu par le Conseil à la majorité qualifiée après approbation du Parlement ; à défaut d'accord, le retrait intervient deux ans après la notification."],
+            ["Quelles sont les sept institutions de l'Union (TUE, article 13) ?", "Le Parlement européen, le Conseil européen, le Conseil, la Commission européenne, la Cour de justice de l'Union européenne, la Banque centrale européenne et la Cour des comptes."],
+            ["Quelles sont les quatre libertés du marché intérieur ?", "La libre circulation des marchandises, des personnes (travailleurs et liberté d'établissement), des services et des capitaux."],
+            ["Quel article du TFUE fonde la citoyenneté de l'Union ?", "TFUE, article 20 : est citoyen de l'Union toute personne ayant la nationalité d'un État membre ; la citoyenneté de l'Union s'ajoute à la citoyenneté nationale sans la remplacer."],
+            ["Quel article du TFUE interdit les restrictions quantitatives à l'importation entre États membres ?", "TFUE, article 34 (et l'article 35 pour les exportations) : c'est le socle de la libre circulation des marchandises."],
+            ["Quel article du TFUE garantit la liberté d'établissement ?", "TFUE, article 49 : les ressortissants d'un État membre peuvent s'établir dans un autre État membre dans les mêmes conditions que les nationaux de cet État."],
+            ["Quels articles du TFUE forment le cœur du droit de la concurrence ?", "Les articles 101 (ententes interdites) et 102 (abus de position dominante), complétés par l'article 107 sur les aides d'État."],
+            ["Que prévoit le TFUE, article 107 ?", "Les aides d'État sont en principe incompatibles avec le marché intérieur lorsqu'elles faussent la concurrence et affectent les échanges entre États membres, sauf exceptions prévues par le traité."],
+            ["Quel article du TFUE sert de base à l'harmonisation des législations pour le marché intérieur ?", "TFUE, article 114 : le Parlement et le Conseil adoptent les mesures de rapprochement des législations ayant pour objet l'établissement et le fonctionnement du marché intérieur."],
+            ["Quels sont les critères budgétaires de référence du TFUE, article 126 ?", "Les États évitent les déficits publics excessifs : valeurs de référence de 3 % du PIB pour le déficit et de 60 % du PIB pour la dette publique, fixées par le protocole annexé aux traités."],
+            ["Quel article du TFUE interdit le financement monétaire des États par la banque centrale ?", "TFUE, article 123 : la BCE et les banques centrales nationales ne peuvent ni accorder de découverts aux États ni acheter directement leurs titres de dette."],
+            ["Quel article du TFUE permet à la Commission de saisir la Cour de justice contre un État qui manque à ses obligations ?", "TFUE, article 258 : le recours en manquement, après mise en demeure et avis motivé adressés à l'État concerné."],
+            ["Quel mécanisme permet à un juge national d'interroger la Cour de justice sur le droit de l'Union ?", "Le renvoi préjudiciel (TFUE, article 267) : la juridiction nationale pose la question à la Cour de justice, dont la réponse s'impose à elle pour trancher le litige."],
+            ["Quels sont les actes juridiques de l'Union selon le TFUE, article 288 ?", "Le règlement (obligatoire et directement applicable), la directive (elle lie les États quant au résultat, en leur laissant le choix de la forme et des moyens), la décision, ainsi que les recommandations et avis, dépourvus de force obligatoire."],
+            ["Comment le Conseil de l'Union européenne vote-t-il à la majorité qualifiée ?", "Depuis 2014 : au moins 55 % des États membres (15 sur 27) représentant au moins 65 % de la population totale de l'Union (TUE, article 16 §4)."],
+            ["Quelle institution définit les orientations politiques générales de l'Union ?", "Le Conseil européen, qui réunit les chefs d'État ou de gouvernement ; il n'exerce aucune fonction législative (TUE, article 15)."],
+            ["Combien de députés compte le Parlement européen et comment sont-ils élus ?", "720 députés depuis les élections de 2024, élus au suffrage universel direct pour cinq ans et répartis entre les États selon une proportionnalité dégressive."],
+            ["Comment le président de la Commission européenne est-il désigné ?", "Le Conseil européen propose un candidat en tenant compte du résultat des élections européennes ; le Parlement européen l'élit, puis approuve la Commission dans son ensemble."],
+            ["Quelle est la mission principale de la Banque centrale européenne ?", "Maintenir la stabilité des prix dans la zone euro (TFUE, article 127), avec un objectif d'inflation de 2 % à moyen terme ; elle conduit la politique monétaire en toute indépendance."],
+            ["Quel est le rôle de la Cour de justice de l'Union européenne ?", "Assurer le respect du droit dans l'interprétation et l'application des traités (TUE, article 19) : recours en manquement, renvois préjudiciels, recours en annulation."],
+            ["Qu'est-ce qu'une coopération renforcée ?", "Un mécanisme (TUE, article 20) permettant à au moins neuf États membres d'avancer entre eux, en dernier ressort, dans un domaine où les autres ne veulent pas suivre ; exemple : le Parquet européen."],
+            ["Quel est l'ordre de grandeur du budget de l'Union européenne ?", "Environ 170 à 190 milliards d'euros par an, soit autour de 1 % du revenu national brut de l'Union ; le cadre financier pluriannuel 2021-2027 représente environ 1 074 milliards d'euros, complétés par le plan de relance NextGenerationEU."],
+            ["Que s'est-il passé le 9 mai 1950 ?", "La déclaration Schuman : Robert Schuman, ministre français des Affaires étrangères, propose de placer la production franco-allemande de charbon et d'acier sous une Haute Autorité commune ; le 9 mai est devenu la Journée de l'Europe."],
+            ["Que créent les traités de Rome du 25 mars 1957 ?", "La Communauté économique européenne (CEE) et la Communauté européenne de l'énergie atomique (Euratom), signés par les Six : la France, l'Allemagne, l'Italie, la Belgique, les Pays-Bas et le Luxembourg."],
+            ["Quel traité, signé en 1992, crée l'Union européenne et prépare la monnaie unique ?", "Le traité de Maastricht, signé le 7 février 1992 et entré en vigueur le 1er novembre 1993 : il crée l'Union européenne, la citoyenneté de l'Union et l'Union économique et monétaire."],
+            ["Quand l'euro est-il arrivé dans les portefeuilles des Européens ?", "Le 1er janvier 2002, avec la mise en circulation des pièces et des billets ; l'euro existait déjà comme monnaie scripturale depuis le 1er janvier 1999."],
+            ["Quel a été le plus grand élargissement de l'Union et quand a-t-il eu lieu ?", "Le 1er mai 2004 : dix pays adhèrent d'un coup, dont la Pologne, la Hongrie et les États baltes, portant l'Union de 15 à 25 membres."],
+            ["Que fait le traité de Lisbonne, entré en vigueur le 1er décembre 2009 ?", "Il donne à l'Union une personnalité juridique, crée un président stable du Conseil européen et le haut représentant pour les affaires étrangères, et rend la Charte des droits fondamentaux juridiquement contraignante."],
+            ["Quand le Royaume-Uni a-t-il quitté l'Union européenne ?", "Le 31 janvier 2020, à la suite du référendum du 23 juin 2016 favorable au départ à 51,9 % ; une période de transition a couru jusqu'au 31 décembre 2020."],
+            ["Combien l'Union compte-t-elle d'États membres et de langues officielles ?", "27 États membres depuis le départ du Royaume-Uni et 24 langues officielles ; la Croatie est le dernier État à avoir adhéré, en 2013."],
+            ["Quel est le déficit public français prévu pour 2026 ?", "5,4 % du PIB ; le gouvernement vise un retour à 5 % en 2027 au prix d'un ajustement de 54 milliards d'euros."],
+            ["À combien s'élève la dette publique française fin juin 2026 ?", "119,0 % du PIB, l'un des niveaux les plus élevés de la zone euro, derrière la Grèce et l'Italie."],
+            ["Quel est le déficit commercial français en 2025 ?", "−69,2 milliards d'euros ; la France est en déficit commercial des biens de manière quasi continue depuis le début des années 2000."],
+            ["Quel est le taux d'inflation en France en octobre 2026 ?", "+3,4 % sur un an (Insee), en reprise après l'accalmie de 2025, tiré notamment par l'énergie et les services."],
+            ["Quel est le taux de chômage en France au troisième trimestre 2026 ?", "8,2 % de la population active (Insee, au sens du BIT), en hausse par rapport au point bas de 7,1 % atteint en 2023."],
+            ["Quel est le taux de la facilité de dépôt de la BCE à l'automne 2026 ?", "2,50 %, après les relèvements de juin et de septembre 2026 destinés à contenir la reprise de l'inflation."],
+            ["Quelles sont trois causes souvent citées de la reprise de l'inflation en 2026 ?", "Le rebond des prix de l'énergie, les tensions sur les approvisionnements et les droits de douane, et la transmission des hausses de salaires aux prix des services."],
+            ["Quels sont les principaux postes d'exportation de la France ?", "L'aéronautique et le spatial, le luxe, l'agroalimentaire (vins et spiritueux notamment), la chimie et la pharmacie, et les équipements automobiles."],
+            ["Que vaut le solde des échanges de services de la France ?", "Il est structurellement excédentaire (tourisme, transport, services financiers et numériques) et compense une partie du déficit des biens, sans suffire à l'effacer."],
+            ["Pourquoi la désindustrialisation pèse-t-elle sur le commerce extérieur français ?", "La part de l'industrie dans la valeur ajoutée n'est plus que d'environ 10 % en France, contre plus de 20 % en Allemagne : moins de capacités productives signifie davantage d'importations et moins de produits à exporter."]
+          ]
+        }
+      ];
+
       /* ============================================================
          Données et sauvegarde locale
          Carte : { id, f (recto), b (verso), s (score 0..3), seen }
@@ -910,6 +1004,17 @@
         return added;
       }
 
+      // Même principe pour le paquet Révision générale.
+      function ensureRevisionDecks() {
+        var added = false;
+        REVISION_DECKS.forEach(function (def) {
+          var exists = false;
+          for (var i = 0; i < state.decks.length; i++) if (state.decks[i].id === def.id) exists = true;
+          if (!exists) { state.decks.push(makeBuiltinDeck(def)); added = true; }
+        });
+        return added;
+      }
+
       function seedState() {
         var cards = [];
         function addAll(list) {
@@ -924,6 +1029,7 @@
         EU_DECKS.forEach(function (def) { decks.push(makeBuiltinDeck(def)); });
         ECO_DECKS.forEach(function (def) { decks.push(makeBuiltinDeck(def)); });
         ARTICLES_DECKS.forEach(function (def) { decks.push(makeBuiltinDeck(def)); });
+        REVISION_DECKS.forEach(function (def) { decks.push(makeBuiltinDeck(def)); });
         return { decks: decks };
       }
 
@@ -936,7 +1042,7 @@
           var raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             var parsed = JSON.parse(raw);
-            if (parsed && Array.isArray(parsed.decks)) { state = parsed; var changed = ensureEUDecks(); if (ensureEcoDecks()) changed = true; if (ensureArticlesDecks()) changed = true; if (changed) save(); return; }
+            if (parsed && Array.isArray(parsed.decks)) { state = parsed; var changed = ensureEUDecks(); if (ensureEcoDecks()) changed = true; if (ensureArticlesDecks()) changed = true; if (ensureRevisionDecks()) changed = true; if (changed) save(); return; }
           }
         } catch (e) { /* on repart du paquet initial */ }
         state = seedState();
@@ -1229,6 +1335,96 @@
       }
       $("love-heart").addEventListener("click", function () { burstHearts(7); loveToast(pickFrom(ETHAN_NOTES)); });
 
+      /* ---------- La grande célébration (fin de la révision générale) ---------- */
+      var MEGA_MESSAGES = [
+        "Ethan t'aime !",
+        "Il est tellement fier de toi !",
+        "Tu as terminé la révision générale !",
+        "Future diplomate, le Quai d'Orsay t'attend !",
+        "Ethan t'aime très fort. Très, très fort."
+      ];
+      var MEGA_COLORS = ["#ff4d8d", "#e64980", "#ff8787", "#f06595", "#d6336c", "#ffa8c5"];
+      var megaInterval = null;
+      var megaHideTimer = null;
+      function megaHeartEl(size) {
+        var h = document.createElement("div");
+        h.className = "mega-heart";
+        h.textContent = "♥";
+        h.style.fontSize = size + "px";
+        h.style.color = MEGA_COLORS[Math.floor(Math.random() * MEGA_COLORS.length)];
+        return h;
+      }
+      function megaBurstHeart(container, delay) {
+        var h = megaHeartEl(16 + Math.random() * 44);
+        h.style.left = "50%";
+        h.style.top = "42%";
+        container.appendChild(h);
+        var angle = Math.random() * Math.PI * 2;
+        var dist = 140 + Math.random() * Math.max(window.innerWidth, window.innerHeight) * 0.6;
+        var dx = Math.cos(angle) * dist;
+        var dy = Math.sin(angle) * dist - 40;
+        var rot = Math.floor(Math.random() * 280 - 140);
+        var anim = h.animate([
+          { transform: "translate(0, 0) scale(0.3) rotate(0deg)", opacity: 1 },
+          { transform: "translate(" + dx + "px, " + dy + "px) scale(1.15) rotate(" + rot + "deg)", opacity: 1, offset: 0.55 },
+          { transform: "translate(" + dx * 1.05 + "px, " + (dy + 200) + "px) scale(0.9) rotate(" + rot + "deg)", opacity: 0 }
+        ], { duration: 2500 + Math.random() * 1500, delay: delay, easing: "cubic-bezier(.17,.67,.35,1)", fill: "forwards" });
+        anim.onfinish = function () { h.remove(); };
+      }
+      function megaRainHeart(container, delay) {
+        var h = megaHeartEl(15 + Math.random() * 30);
+        h.style.left = (Math.random() * 98) + "vw";
+        h.style.top = "0";
+        container.appendChild(h);
+        var sway = Math.floor(Math.random() * 140 - 70);
+        var fall = window.innerHeight + 140;
+        var anim = h.animate([
+          { transform: "translate(0, -70px) rotate(0deg)", opacity: 0 },
+          { transform: "translate(" + sway * 0.4 + "px, " + fall * 0.25 + "px) rotate(35deg)", opacity: 1, offset: 0.2 },
+          { transform: "translate(" + sway + "px, " + fall * 0.7 + "px) rotate(-30deg)", opacity: 1, offset: 0.75 },
+          { transform: "translate(" + sway * 0.6 + "px, " + fall + "px) rotate(15deg)", opacity: 0 }
+        ], { duration: 3800 + Math.random() * 2200, delay: delay, easing: "linear", fill: "forwards" });
+        anim.onfinish = function () { h.remove(); };
+      }
+      function megaCelebration() {
+        var overlay = $("mega-celebration");
+        if (!overlay) return;
+        var title = $("mega-title");
+        var msgEl = $("mega-message");
+        overlay.classList.add("show");
+        title.classList.remove("mega-msg-anim"); void title.offsetWidth; title.classList.add("mega-msg-anim");
+        var idx = 0;
+        msgEl.textContent = MEGA_MESSAGES[0];
+        msgEl.classList.remove("mega-msg-anim"); void msgEl.offsetWidth; msgEl.classList.add("mega-msg-anim");
+        for (var i = 0; i < 70; i++) megaBurstHeart(overlay, Math.random() * 600);
+        for (var j = 0; j < 45; j++) megaRainHeart(overlay, 200 + Math.random() * 2600);
+        setTimeout(function () { if (overlay.classList.contains("show")) { for (var k = 0; k < 50; k++) megaBurstHeart(overlay, Math.random() * 600); } }, 2700);
+        setTimeout(function () { if (overlay.classList.contains("show")) { for (var m = 0; m < 40; m++) megaRainHeart(overlay, Math.random() * 2200); } }, 5400);
+        if (megaInterval) clearInterval(megaInterval);
+        megaInterval = setInterval(function () {
+          idx = (idx + 1) % MEGA_MESSAGES.length;
+          msgEl.textContent = MEGA_MESSAGES[idx];
+          msgEl.classList.remove("mega-msg-anim"); void msgEl.offsetWidth; msgEl.classList.add("mega-msg-anim");
+        }, 2100);
+        if (megaHideTimer) clearTimeout(megaHideTimer);
+        megaHideTimer = setTimeout(hideMegaCelebration, 12500);
+        overlay.onclick = hideMegaCelebration;
+      }
+      function hideMegaCelebration() {
+        var overlay = $("mega-celebration");
+        if (!overlay) return;
+        overlay.classList.remove("show");
+        if (megaInterval) { clearInterval(megaInterval); megaInterval = null; }
+        if (megaHideTimer) { clearTimeout(megaHideTimer); megaHideTimer = null; }
+        var hearts = overlay.querySelectorAll(".mega-heart");
+        for (var i = 0; i < hearts.length; i++) hearts[i].remove();
+      }
+
+      // Aperçu de la grande célébration : ouvrir l'appli avec #fete dans l'adresse.
+      if (window.location.hash && window.location.hash.indexOf("fete") !== -1) {
+        setTimeout(megaCelebration, 900);
+      }
+
       // Compte à rebours avant les retrouvailles à Paris (17 décembre 2026).
       (function () {
         var el = $("trip-countdown");
@@ -1258,6 +1454,9 @@
             burstHearts(14);
           } else if (session.known >= 12) {
             $("study-end-text").textContent += " " + pickFrom(LOVE_NOTES);
+          }
+          if (deck.id === "revision-generale") {
+            setTimeout(megaCelebration, 700);
           }
         }
       }
