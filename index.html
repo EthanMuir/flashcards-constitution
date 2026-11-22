@@ -134,6 +134,7 @@
         transform-style: preserve-3d; transition: transform 0.45s ease; cursor: pointer;
       }
       .card-inner.flipped { transform: rotateY(180deg); }
+      .card-inner.no-anim { transition: none; }
       .card-face {
         position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
         border-radius: 18px; padding: 28px 24px; display: flex; flex-direction: column;
@@ -1121,9 +1122,13 @@
         var deck = getDeck(session.deckId);
         if (!card || !deck) { endSession(); return; }
         session.flipped = false;
-        $("flashcard").classList.remove("flipped");
+        var fcEl = $("flashcard");
+        fcEl.classList.add("no-anim");
+        fcEl.classList.remove("flipped");
         $("card-front-text").textContent = card.f;
         $("card-back-text").textContent = card.b;
+        void fcEl.offsetWidth;
+        fcEl.classList.remove("no-anim");
         $("grade-row").classList.add("hidden");
         $("card-hint").textContent = "Touchez la carte pour voir la réponse";
         var remaining = session.queue.length - session.pos;
